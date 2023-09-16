@@ -134,7 +134,7 @@ class _VideoViewState extends State<VideoView> with TickerProviderStateMixin {
                             _vlcPlayerController.setVolume(0);
                           });
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.music_off_outlined,
                           color: Colors.white,
                         ))

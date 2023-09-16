@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:m3u_nullsafe/m3u_nullsafe.dart';
-
 import 'video_view.dart';
 
 class IndividualView extends StatefulWidget {
@@ -30,11 +29,13 @@ class _IndividualViewState extends State<IndividualView> {
           return InkWell(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VideoView(
-                            url: widget.contents[index].link,
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VideoView(
+                    url: widget.contents[index].link,
+                  ),
+                ),
+              );
             },
             child: ListTile(
               title: Text(widget.contents[index].title),
