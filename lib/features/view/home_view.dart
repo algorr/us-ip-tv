@@ -1,28 +1,22 @@
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:m3u_nullsafe/m3u_nullsafe.dart';
 import 'individual_view.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
-
+  const HomeView({Key? key, required this.listTracks}) : super(key: key);
+  final List<M3uGenericEntry> listTracks;
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  File file = File('');
-  List<M3uGenericEntry> listTracks = [];
   List<String> menus = ['Channels', 'Movies', 'Series'];
   List<IconData> icons = [
     Icons.tv_outlined,
     Icons.local_movies_outlined,
     Iconsax.truck_remove
   ];
-  Map<String, List<M3uGenericEntry>> contents = {};
-  List parts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +24,8 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: new LinearGradient(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.bottomCenter,
             colors: [
@@ -41,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
           )),
         ),
         title: const Text(
-          'Mine',
+          'US IP TV',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -61,8 +55,8 @@ class _HomeViewState extends State<HomeView> {
             )),
       ),
       body: Container(
-        decoration: BoxDecoration(
-            gradient: new LinearGradient(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
@@ -73,33 +67,6 @@ class _HomeViewState extends State<HomeView> {
         child: SafeArea(
           child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () async {
-                  final FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
-                    type: FileType.any,
-                  );
-
-                  //final liste = await parseFile(result?.paths);
-                  final file = await File(result!.paths.first!).readAsString();
-                  final listOfTracks = await parseFile(file);
-
-                  final categories = sortedCategories(
-                      entries: listOfTracks, attributeName: 'group-title');
-                  // print('categories : $categories');
-                  var bolum = categories.keys.toList();
-
-                  setState(() {
-                    listTracks = listOfTracks;
-                    contents = categories;
-                    parts.add(bolum);
-                  });
-                  print('Bolumler : ${parts.first}');
-                  print('File : ${categories.keys}');
-                  //print('Tracks : $listOfTracks');
-                },
-                child: const Text('Pick M3U File'),
-              ),
               const SizedBox(
                 height: 50,
               ),
@@ -122,7 +89,7 @@ class _HomeViewState extends State<HomeView> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => IndividualView(
-                                  contents: listTracks,
+                                  contents: widget.listTracks,
                                 ),
                               ),
                             );

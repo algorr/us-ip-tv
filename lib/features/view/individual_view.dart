@@ -3,8 +3,8 @@ import 'package:m3u_nullsafe/m3u_nullsafe.dart';
 import 'video_view.dart';
 
 class IndividualView extends StatefulWidget {
-  IndividualView({Key? key, required this.contents}) : super(key: key);
-  List<M3uGenericEntry> contents;
+  const IndividualView({Key? key, required this.contents}) : super(key: key);
+  final List<M3uGenericEntry> contents;
 
   @override
   State<IndividualView> createState() => _IndividualViewState();
@@ -26,6 +26,7 @@ class _IndividualViewState extends State<IndividualView> {
           child: ListView.builder(
         itemCount: widget.contents.length,
         itemBuilder: (context, index) {
+          print(widget.contents[index].title);
           return InkWell(
             onTap: () {
               Navigator.push(

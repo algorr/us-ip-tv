@@ -56,7 +56,6 @@ class _VideoViewState extends State<VideoView> with TickerProviderStateMixin {
         isTapped = !isTapped;
       });
     });
-    print('isTapped : $isTapped');
   }
 
   @override
@@ -87,12 +86,10 @@ class _VideoViewState extends State<VideoView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final videoSize = _vlcPlayerController.value.size;
-    print('Build anında isTapped : $isTapped');
     setState(() {
       _lastZoomGestureScale = 1.0;
       _scaleVideoAnimationController.forward();
     });
-    print('VideoSize : $videoSize');
 
     final newTargetScale =
         size.width / (videoSize.width * size.height / videoSize.height);
