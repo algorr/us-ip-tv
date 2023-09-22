@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:m3u_nullsafe/m3u_nullsafe.dart';
-import 'individual_view.dart';
+import 'package:us_ip_tv/data/service/local_service/local_service.dart';
+import 'package:us_ip_tv/features/view/groups_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key, required this.listTracks}) : super(key: key);
@@ -17,6 +18,15 @@ class _HomeViewState extends State<HomeView> {
     Icons.local_movies_outlined,
     Iconsax.truck_remove
   ];
+
+  final _localService = LocalService();
+  final list = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _localService.fetchChannels().then((value) => list.add(value));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +95,18 @@ class _HomeViewState extends State<HomeView> {
                       itemBuilder: (BuildContext ctx, index) {
                         return InkWell(
                           onTap: () {
-                            Navigator.push(
+                            /*  Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => IndividualView(
+                                  contents: widget.listTracks,
+                                ),
+                              ),
+                            ); */
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GroupsView(
                                   contents: widget.listTracks,
                                 ),
                               ),
