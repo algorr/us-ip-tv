@@ -52,27 +52,24 @@ class _GroupsViewState extends State<GroupsView> {
               maxCrossAxisExtent: 300,
               childAspectRatio: 3 / 2,
               crossAxisSpacing: 1,
-              mainAxisSpacing: 1),
+              mainAxisSpacing: 50),
           itemCount: widget.data![widget.indexOfGroup].contentList.length,
           itemBuilder: (context, index) {
-            print(widget.data?.length);
-            print(widget.data![widget.indexOfGroup].contentList.length);
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 200,
-                width: 200,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .1,
-                      child: AutoSizeText(
-                        widget.data![widget.indexOfGroup].contentList[index]
-                            .title,
-                        style: const TextStyle(fontSize: 20),
-                      ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                    child: AutoSizeText(
+                      widget
+                          .data![widget.indexOfGroup].contentList[index].title,
+                      style: const TextStyle(fontSize: 20),
                     ),
-                    InkWell(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -89,7 +86,8 @@ class _GroupsViewState extends State<GroupsView> {
                         );
                       },
                       child: SizedBox(
-                        height: 80,
+                        height: 150,
+                        width: 200,
                         child: Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
@@ -101,31 +99,31 @@ class _GroupsViewState extends State<GroupsView> {
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(15)),
-                            child: Column(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  height: 50,
-                                  width: 50,
+                                  height: 150,
+                                  width: 200,
                                   child: Image.network(
                                     widget.data![widget.indexOfGroup]
                                             .contentList[index].imgUrl ??
                                         '',
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                Expanded(
+                                /*   Expanded(
                                   child: AutoSizeText(
                                     widget.data![widget.indexOfGroup]
                                         .contentList[index].title,
                                   ),
-                                ),
+                                ), */
                               ],
                             )),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },
