@@ -1,23 +1,23 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:m3u_nullsafe/m3u_nullsafe.dart';
+import '../models/group_model.dart';
 import 'video_view.dart';
 
 class GroupsView extends StatefulWidget {
-  const GroupsView({super.key, required this.contents});
-  final List<M3uGenericEntry> contents;
+  GroupsView({
+    super.key,
+    required this.data,
+    required this.indexOfGroup,
+  });
+
+  List<ChannelGroup>? data;
+  int indexOfGroup;
 
   @override
   State<GroupsView> createState() => _GroupsViewState();
 }
 
 class _GroupsViewState extends State<GroupsView> {
-  final List<String> groups = ['Haber', 'Belgesel', 'Çocuk', 'Sinema'];
-  final List<String> images = [
-    'assets/images/news.png',
-    'assets/images/documentary.png',
-    'assets/images/cartoon.png',
-    'assets/images/movie.png'
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +34,7 @@ class _GroupsViewState extends State<GroupsView> {
             ],
           )),
         ),
-        title: const Text('Channels'),
+        title: Text(widget.data![widget.indexOfGroup].groupTitle),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -53,62 +53,79 @@ class _GroupsViewState extends State<GroupsView> {
               childAspectRatio: 3 / 2,
               crossAxisSpacing: 1,
               mainAxisSpacing: 1),
-          itemCount: groups.length,
+          itemCount: widget.data![widget.indexOfGroup].contentList.length,
           itemBuilder: (context, index) {
+            print(widget.data?.length);
+            print(widget.data![widget.indexOfGroup].contentList.length);
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .1,
-                    child: Text(
-                      groups[index],
-                      style: const TextStyle(fontSize: 20),
+              child: SizedBox(
+                height: 200,
+                width: 200,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * .1,
+                      child: AutoSizeText(
+                        widget.data![widget.indexOfGroup].contentList[index]
+                            .title,
+                        style: const TextStyle(fontSize: 20),
+                      ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VideoView(
-                            url: widget.contents[index].link,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VideoView(
+                              url: widget.data?[widget.indexOfGroup]
+                                      .contentList[index].link ??
+                                  '',
+                              title: widget.data?[widget.indexOfGroup]
+                                      .contentList[index].title ??
+                                  '',
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: SizedBox(
-                      height: 100,
-                      child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Colors.yellow,
-                                  Colors.red,
-                                  Colors.blue
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: Image.asset(
-                                  images[index],
-                                  fit: BoxFit.fill,
+                        );
+                      },
+                      child: SizedBox(
+                        height: 80,
+                        child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Colors.yellow,
+                                    Colors.red,
+                                    Colors.blue
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                groups[index],
-                              ),
-                            ],
-                          )),
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: Image.network(
+                                    widget.data![widget.indexOfGroup]
+                                            .contentList[index].imgUrl ??
+                                        '',
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: AutoSizeText(
+                                    widget.data![widget.indexOfGroup]
+                                        .contentList[index].title,
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

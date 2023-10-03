@@ -61,8 +61,8 @@ class _IndividualViewState extends State<IndividualView> {
                 crossAxisCount: 3),
             itemCount: widget.contents.length,
             itemBuilder: (context, index) {
-              print(
-                  'Gruplar : ${widget.contents[index].attributes['group-title']}');
+              /*  print(
+                  'Gruplar : ${widget.contents[index].attributes['group-title']}'); */
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(

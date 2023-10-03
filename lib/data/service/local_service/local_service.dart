@@ -1,12 +1,22 @@
 import 'package:m3u_nullsafe/m3u_nullsafe.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:us_ip_tv/data/service/local_service/i_local_service.dart';
 import 'package:us_ip_tv/main.dart';
 import '../../../features/models/group_model.dart';
 
 class LocalService extends ILocalService {
+  //* fetch all channels
   @override
   Future<List<ChannelGroup>?> fetchChannels() async {
-    final data = await M3uParser.parse(m3uFilePath!);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    m3uFilePath = sharedPreferences.getString('m3uFilePath');
+
+    final m3u = sharedPreferences.getStringList('m3uFile');
+
+    await sharedPreferences.setStringList('m3uFile', m3u ?? []);
+    await sharedPreferences.setString('m3uFilePath', m3uFilePath ?? '');
+
+    final data = await M3uParser.parse(m3uFilePath ?? '');
 
     List<ChannelGroup> channelGroupList = [];
 
@@ -26,10 +36,12 @@ class LocalService extends ILocalService {
         //Channel grubu bul
         var channelGroup = channelGroupList
             .firstWhere((element) => element.groupTitle == groupTitle);
-        print('ChannelGroupList : ${channelGroup.groupTitle}');
+        /*  print(
+            'ChannelGroupList : ${channelGroup.groupTitle}'); */ //////////////////////////////////////?
         //item dizi mi
         if (item.title.contains(RegExp(r'S[0-9][0-9]'))) {
           //dizi var mı
+
           if (channelGroup.tvSerie.contains(TvSerie(title: tvSerieTitle))) {
             //diziyi bul
             var tvSerie = channelGroup.tvSerie
@@ -47,7 +59,7 @@ class LocalService extends ILocalService {
                 episodes: [content],
               ));
             }
-          } else {
+          } /* else {
             channelGroup.tvSerie.add(
               TvSerie(
                 title: tvSerieTitle,
@@ -61,7 +73,7 @@ class LocalService extends ILocalService {
                 ],
               ),
             );
-          }
+          } */
         } else {
           channelGroup.contentList.add(content);
         }
@@ -97,6 +109,7 @@ class LocalService extends ILocalService {
         }
       }
     }
+
     return channelGroupList;
   }
 }

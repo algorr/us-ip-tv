@@ -1,26 +1,23 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:m3u_nullsafe/m3u_nullsafe.dart';
 import 'package:us_ip_tv/data/service/local_service/local_service.dart';
+import 'package:us_ip_tv/features/models/group_model.dart';
 import 'package:us_ip_tv/features/view/groups_view.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key, required this.listTracks}) : super(key: key);
-  final List<M3uGenericEntry> listTracks;
+  HomeView({Key? key, required this.listTracks, required this.data})
+      : super(key: key);
+  List<M3uGenericEntry> listTracks;
+  List<ChannelGroup>? data;
+
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  List<String> menus = ['Channels', 'Movies', 'Series'];
-  List<IconData> icons = [
-    Icons.tv_outlined,
-    Icons.local_movies_outlined,
-    Iconsax.truck_remove
-  ];
-
   final _localService = LocalService();
-  final list = [];
+  var list = [];
 
   @override
   void initState() {
@@ -81,7 +78,7 @@ class _HomeViewState extends State<HomeView> {
                 height: 50,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * .5,
+                height: MediaQuery.of(context).size.height * .7,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GridView.builder(
@@ -91,23 +88,16 @@ class _HomeViewState extends State<HomeView> {
                               childAspectRatio: 3 / 2,
                               crossAxisSpacing: 20,
                               mainAxisSpacing: 20),
-                      itemCount: menus.length,
+                      itemCount: widget.data?.length,
                       itemBuilder: (BuildContext ctx, index) {
                         return InkWell(
                           onTap: () {
-                            /*  Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => IndividualView(
-                                  contents: widget.listTracks,
-                                ),
-                              ),
-                            ); */
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => GroupsView(
-                                  contents: widget.listTracks,
+                                  data: widget.data,
+                                  indexOfGroup: index,
                                 ),
                               ),
                             );
@@ -126,12 +116,8 @@ class _HomeViewState extends State<HomeView> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    icons[index],
-                                    size: 60,
-                                  ),
-                                  Text(
-                                    menus[index],
+                                  AutoSizeText(
+                                    widget.data![index].groupTitle,
                                   ),
                                 ],
                               )),

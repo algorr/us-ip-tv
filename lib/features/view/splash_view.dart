@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3u_nullsafe/m3u_nullsafe.dart';
+import 'package:us_ip_tv/data/service/local_service/local_service.dart';
 import 'package:us_ip_tv/features/view/home_view.dart';
 import 'package:us_ip_tv/features/view/settings_view.dart';
 import 'package:us_ip_tv/main.dart';
@@ -12,6 +13,8 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  final LocalService _localService = LocalService();
+
   @override
   void initState() {
     super.initState();
@@ -21,11 +24,13 @@ class _SplashViewState extends State<SplashView> {
   void _checkM3uFile() async {
     final listOfTracks = await parseFile(m3uFilePath ?? '');
 
+    var data = await _localService.fetchChannels();
     await Future.delayed(const Duration(seconds: 3)).then((value) =>
-        m3uFilePath != ''
+        listOfTracks.isNotEmpty
             ? Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => HomeView(
                       listTracks: listOfTracks,
+                      data: data,
                     )))
             : Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const SettingsView())));

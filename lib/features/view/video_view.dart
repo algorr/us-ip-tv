@@ -3,8 +3,10 @@ import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:iconsax/iconsax.dart';
 
 class VideoView extends StatefulWidget {
-  const VideoView({Key? key, required this.url}) : super(key: key);
+  const VideoView({Key? key, required this.url, required this.title})
+      : super(key: key);
   final String url;
+  final String title;
 
   @override
   State<VideoView> createState() => _VideoViewState();
@@ -112,7 +114,7 @@ class _VideoViewState extends State<VideoView> with TickerProviderStateMixin {
               ? AppBar(
                   backgroundColor: Colors.black,
                   title: Text(
-                    widget.url,
+                    widget.title,
                     style: const TextStyle(color: Colors.white),
                   ),
                   leading: IconButton(
