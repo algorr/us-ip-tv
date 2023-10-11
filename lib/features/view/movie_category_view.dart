@@ -105,7 +105,7 @@ class _MovieCategoryViewState extends State<MovieCategoryView> {
                           height: 100,
                           fit: BoxFit.fill,
                           errorBuilder: (context, error, stackTrace) {
-                            return Image.asset('assets/images/logo.png');
+                            return Image.asset('assets/images/no_image.jpg');
                           },
                         ),
                       ),

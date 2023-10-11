@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:us_ip_tv/features/view/video_view.dart';
-
 import '../models/group_model.dart';
 
 class SeriesCategoryView extends StatefulWidget {
@@ -107,7 +106,7 @@ class _SeriesCategoryViewState extends State<SeriesCategoryView> {
                           height: 100,
                           fit: BoxFit.fill,
                           errorBuilder: (context, error, stackTrace) {
-                            return Image.asset('assets/images/logo.png');
+                            return Image.asset('assets/images/no_image.jpg');
                           },
                         ),
                       ),
