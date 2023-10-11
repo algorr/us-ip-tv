@@ -29,7 +29,6 @@ class _SplashViewState extends State<SplashView> {
         listOfTracks.isNotEmpty
             ? Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => HomeView(
-                      listTracks: listOfTracks,
                       data: data,
                     )))
             : Navigator.of(context).push(

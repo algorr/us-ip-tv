@@ -24,6 +24,8 @@ class LocalService extends ILocalService {
       final tvSerieTitle = item.title.split(RegExp(r'S[0-9][0-9]')).first;
       final tvSerieSeasonTitle = item.title.split(RegExp(r'E[0-9][0-9]')).first;
       final groupTitle = item.attributes['group-title'];
+      print(groupTitle);
+
       final imgUrl = item.attributes['tvg-logo'];
       final content = Episode(
         title: item.title,
@@ -36,8 +38,13 @@ class LocalService extends ILocalService {
         //Channel grubu bul
         var channelGroup = channelGroupList
             .firstWhere((element) => element.groupTitle == groupTitle);
-        /*  print(
-            'ChannelGroupList : ${channelGroup.groupTitle}'); */ //////////////////////////////////////?
+        //////////////////////////////////////?
+
+        /*  for (var i = 0; i < channelGroup.contentList.length; i++) {
+          if (channelGroup.contentList[i].title == 'belgesel') {
+            print('spor ${i}');
+          }
+        } */
         //item dizi mi
         if (item.title.contains(RegExp(r'S[0-9][0-9]'))) {
           //dizi var mı
@@ -46,6 +53,7 @@ class LocalService extends ILocalService {
             //diziyi bul
             var tvSerie = channelGroup.tvSerie
                 .firstWhere((element) => element.title == tvSerieTitle);
+
             //Sezon var mı
             if (tvSerie.seasons.contains(Season(title: tvSerieSeasonTitle))) {
               //Sezonu bul

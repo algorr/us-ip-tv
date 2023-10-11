@@ -4,14 +4,14 @@ import '../models/group_model.dart';
 import 'video_view.dart';
 
 class GroupsView extends StatefulWidget {
-  GroupsView({
+  const GroupsView({
     super.key,
     required this.data,
     required this.indexOfGroup,
   });
 
-  List<ChannelGroup>? data;
-  int indexOfGroup;
+  final List<ChannelGroup>? data;
+  final int indexOfGroup;
 
   @override
   State<GroupsView> createState() => _GroupsViewState();
@@ -25,34 +25,33 @@ class _GroupsViewState extends State<GroupsView> {
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 25, 178, 238),
-              Color.fromARGB(255, 21, 236, 229),
-            ],
-          )),
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromARGB(255, 25, 178, 238),
+                Color.fromARGB(255, 21, 236, 229),
+              ],
+            ),
+          ),
         ),
         title: Text(widget.data![widget.indexOfGroup].groupTitle),
       ),
       body: Container(
         decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color.fromARGB(255, 25, 178, 238),
-            Color.fromARGB(255, 21, 236, 229)
-          ],
-        )),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.fromARGB(255, 25, 178, 238),
+              Color.fromARGB(255, 21, 236, 229)
+            ],
+          ),
+        ),
         height: MediaQuery.of(context).size.height,
         child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 300,
-              childAspectRatio: 3 / 2,
-              crossAxisSpacing: 1,
-              mainAxisSpacing: 50),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 5),
           itemCount: widget.data![widget.indexOfGroup].contentList.length,
           itemBuilder: (context, index) {
             return Padding(
@@ -85,41 +84,29 @@ class _GroupsViewState extends State<GroupsView> {
                           ),
                         );
                       },
-                      child: SizedBox(
-                        height: 150,
-                        width: 200,
-                        child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Colors.yellow,
-                                    Colors.red,
-                                    Colors.blue
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 150,
-                                  width: 200,
-                                  child: Image.network(
-                                    widget.data![widget.indexOfGroup]
-                                            .contentList[index].imgUrl ??
-                                        '',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                /*   Expanded(
-                                  child: AutoSizeText(
-                                    widget.data![widget.indexOfGroup]
-                                        .contentList[index].title,
-                                  ),
-                                ), */
-                              ],
-                            )),
+                      child: Container(
+                        height: 120,
+                        width: 170,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Colors.yellow, Colors.red, Colors.blue],
+                            ),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: SizedBox(
+                          height: 150,
+                          width: 200,
+                          child: Image.network(
+                            widget.data![widget.indexOfGroup].contentList[index]
+                                .imgUrl!,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset('assets/images/logo.png');
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
