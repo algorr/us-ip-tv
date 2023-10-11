@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:us_ip_tv/features/resources/theme_manager.dart';
 import 'package:us_ip_tv/features/view/splash_view.dart';
 import 'data/service/local_service/local_service.dart';
 
@@ -29,10 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Us IPTV',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: getAppTheme(),
       home: const SplashView(),
     );
   }
